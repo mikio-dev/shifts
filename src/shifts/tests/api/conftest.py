@@ -77,8 +77,8 @@ async def mock_db_shift():
     shifts.append(Shift(id=1, shift_date="2022-01-01", shift_slot=1))
     shifts.append(Shift(id=2, shift_date="2022-01-02", shift_slot=2))
     shifts.append(Shift(id=3, shift_date="2022-01-03", shift_slot=3))
-    shifts.append(Shift(id=4, shift_date="2022-01-04", shift_slot=4))
-    shifts.append(Shift(id=5, shift_date="2022-01-05", shift_slot=5))
+    shifts.append(Shift(id=4, shift_date="2022-01-04", shift_slot=1))
+    shifts.append(Shift(id=5, shift_date="2022-01-05", shift_slot=2))
 
     mock.query().offset().limit().all.return_value = shifts
     mock.query().filter().first.return_value = shifts[0]
