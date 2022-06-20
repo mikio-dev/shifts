@@ -5,11 +5,9 @@ Simple REST API application that can serve as a work planning service
 ## Technologies used
 
 - [FastAPI](https://fastapi.tiangolo.com/)
-
     - [pydantic](https://pydantic-docs.helpmanual.io/)
     - [SQLAlchemy](https://www.sqlalchemy.org/)
     - [Alembic](https://alembic.sqlalchemy.org/en/latest/)
-
 - [PostgreSQL](https://www.postgresql.org/)
 - [pytest](https://docs.pytest.org/)
 
@@ -36,7 +34,7 @@ In addition, the following assumptions have been made:
 
 ### Out of scope functionality
 
-The following components are not included in the current version.
+The following functionality is out of scope in the current version.
 
 - Authentication (signup, login)
 - Authorisation 
@@ -65,7 +63,7 @@ The overview of the application design is as follows.
 There are two main points to consider.
 
 1. Worker and Manager have common attributes, such as `username`. Therefore, it would be convenient
-   to consider that they are a subclass of a parent class `User`. 
+   to consider that they are subclasses of a parent class `User`. 
 
 2. A `Worker` can have multiple `Shift`s, and a `Shift` can have multiple `Worker`s. 
    Therefore, the relationship between `Worker` and `Shift` is considered many-to-many. 
@@ -73,7 +71,7 @@ There are two main points to consider.
 
 To summarise, the class diagram is shown below.
 
-![Class diagram](images/shifts_use_cases.png)
+![Class diagram](images/shifts_class_diagram.png)
 
 ### Sequence diagram
 
