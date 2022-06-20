@@ -22,10 +22,8 @@ jobs:
           ln -s /opt/poetry/bin/poetry && \
           poetry config virtualenvs.create false
 
-      - name: Install dependencies
+      - name: Install dependencies and run tests
         run: |
-          poetry install --no-root
-
-      - name: Run test suite
-        run: |
+          cd src/shifts && \
+          poetry install --no-root && \
           poetry run pytest -v
