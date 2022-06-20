@@ -1,5 +1,6 @@
 from sqlalchemy import DATE, Column, Integer
 from sqlalchemy.orm import relationship
+from sqlalchemy.schema import UniqueConstraint
 
 from app.db.base_class import Base
 
@@ -13,4 +14,7 @@ class Shift(Base):
     workers = relationship(
         "WorkerShift",
         cascade="all, delete-orphan",
+    )
+    __table_args__ = (
+        UniqueConstraint("shift_date", "shift_slot", name="shift_date_shift_slot_uc"),
     )

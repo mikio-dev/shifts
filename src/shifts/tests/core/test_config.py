@@ -8,7 +8,7 @@ def test_api_v1_str():
 def test_sqlalchemy_database_uri():
     assert (
         settings.SQLALCHEMY_DATABASE_URI
-        == "postgresql://postgres:postgres@localhost:5432/postgres"
+        == "postgresql://postgres:postgres@localhost:5432/shifts"
     )
 
 

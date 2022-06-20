@@ -16,9 +16,9 @@ class Settings(BaseSettings):
     # SQLALCHEMY_DATABASE_URI: Optional[str] = "sqlite:///shifts.db"
     SQLALCHEMY_DATABASE_URI: Optional[
         str
-    ] = "postgresql://postgres:postgres@localhost:5432/postgres"
+    ] = "postgresql://postgres:postgres@localhost:5432/shifts"
 
-    # Test data to be created in app/initial_data.py
+    # Test data to be created in app/load_init_data.py
     FIRST_MANAGER: str = "Manager1"
     FIRST_WORKER: str = "Worker1"
 

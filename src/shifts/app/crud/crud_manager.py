@@ -1,8 +1,7 @@
-from sqlalchemy.orm import Session
-
 from app.crud.base import CRUDBase
 from app.models.manager import Manager
 from app.schemas.manager import ManagerCreate
+from sqlalchemy.orm import Session
 
 
 class CRUDManager(CRUDBase[Manager, ManagerCreate]):
