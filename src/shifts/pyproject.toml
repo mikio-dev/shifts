@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "shifts"
 version = "0.1.0"
-description = ""
+description = "Simple REST API application that can serve as a work planning service"
 authors = ["Mikio Oba <hello@mikio.dev>"]
 
 [tool.poetry.dependencies]
