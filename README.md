@@ -1,6 +1,6 @@
 # Shifts
 
-Simple REST API application that can serve as a work planning service
+Simple REST API application using FastAPI
 
 ## Technologies used
 
@@ -10,6 +10,7 @@ Simple REST API application that can serve as a work planning service
     - [Alembic](https://alembic.sqlalchemy.org/en/latest/)
 - [PostgreSQL](https://www.postgresql.org/)
 - [pytest](https://docs.pytest.org/)
+- [Docker](https://www.docker.com/)
 
 
 ## Requirement analysis

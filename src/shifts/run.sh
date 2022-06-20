@@ -1,4 +1,4 @@
-#!/bin/sh
+#! /usr/bin/env bash
 
 # Heroku postgres addon
 export SQLALCHEMY_DATABASE_URI=${DATABASE_URL}
