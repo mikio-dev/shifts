@@ -11,9 +11,11 @@ Simple REST API application that can serve as a work planning service
 - [PostgreSQL](https://www.postgresql.org/)
 - [pytest](https://docs.pytest.org/)
 
+
 ## Requirement analysis
 
 The requirements for the application are as follows.
+
 
 ### Functional requirements
 
@@ -22,6 +24,7 @@ The requirements for the application are as follows.
 - A Worker must have zero or more Shifts over multiple days.
 - A Worker must have zero or one Shift per day.
 - The application must provide REST APIs.
+
 
 ### Assumptions
 
@@ -40,14 +43,18 @@ The following functionality is out of scope in the current version.
 - Authorisation 
 - Front-end application
 
+
+
 ## Application design
 
 The overview of the application design is as follows.
+
 
 ### Actors
 
 - Worker
 - Manager
+
 
 ### Use stories and use cases
 
@@ -57,6 +64,7 @@ The overview of the application design is as follows.
 - As a Manager, I want to create Shifts so that Workers can choose them.
 
 ![User case diagram](images/shifts_use_cases.png)
+
 
 ### Class diagram
 
@@ -73,6 +81,7 @@ To summarise, the class diagram is shown below.
 
 ![Class diagram](images/shifts_class_diagram.png)
 
+
 ### Sequence diagram
 
 Although the front end is not included in this application, the following sequence diagrams
@@ -86,9 +95,12 @@ The following diagrams show some of the primary activities' flow.
 
 ![Activity diagram](images/shifts_activity_diagram.png)
 
+
+
 ## Implementation
 
 The application is built using the [FastAPI](https://fastapi.tiangolo.com/) framework.
+
 
 ### Models
 
@@ -104,6 +116,7 @@ As discussed earlier, `Worker` and `Manager` inherit from `User`. `WorkerShift` 
 
 The classes are mapped to the database tables using SQLAlchemy ORM. They are stored in the `src/shifts/app/models` directory in the repository.
 
+
 ### Routers
 
 The application has the following REST API endpoints, defined in the `src/shifts/app/api` directory.
@@ -113,6 +126,22 @@ The application has the following REST API endpoints, defined in the `src/shifts
 - `shift`
 
 FastAPI automatically generates the Open API documentation, which lists all the APIs.
+
+
+
+## Unit tests
+
+All unit test files are stored in the `src/shifts/tests` directory. 
+
+To execute the unit tests, run the `pytest` command in the `src/shifts` directory using `poetry`:
+
+```
+$ poetry run pytest
+```
+
+In addition, a Github action runs the `pytest` command every time code change is pushed to the Github repository.
+
+
 
 ## Deployment
 
@@ -125,3 +154,5 @@ $ docker-compose up -d
 This command will build the necessary Docker images and start the application and the PostgreSQL database server. It will also add a few initial test records to the tables.
 
 The Open API document is accessible at [`http://localhost:8001/docs`](http://localhost:8001/docs), which can be used to access the APIs.
+
+
