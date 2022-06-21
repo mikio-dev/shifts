@@ -1,10 +1,9 @@
 # pylint: disable=E1101
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-
 from app import crud
 from app.api import deps
 from app.schemas.shift import Shift, ShiftCreate
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
