@@ -1,12 +1,11 @@
-from fastapi import APIRouter, Depends, HTTPException
-from fastapi.encoders import jsonable_encoder
-from sqlalchemy.exc import IntegrityError
-from sqlalchemy.orm import Session
-
 from app import crud
 from app.api import deps
 from app.schemas.worker import Worker, WorkerCreate
 from app.schemas.worker_shift import WorkerShift
+from fastapi import APIRouter, Depends, HTTPException
+from fastapi.encoders import jsonable_encoder
+from sqlalchemy.exc import IntegrityError
+from sqlalchemy.orm import Session
 
 from .shift import fetch_shift
 
