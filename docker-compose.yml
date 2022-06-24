@@ -4,8 +4,8 @@ services:
     image: postgres:14 # https://hub.docker.com/_/postgres
     ports:
       - "5432:5432"
-    volumes:
-      - postgres-db-data:/var/lib/postgresql/data/pgdata
+    # volumes:
+    #   - postgres-db-data:/var/lib/postgresql/data/pgdata
     environment:
       # This optional variable can be used to define another location -
       # like a subdirectory - for the database files.
@@ -35,5 +35,6 @@ services:
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@db:5432/shifts
       - BACKEND_CORS_ORIGINS=["http://localhost:3000","http://localhost:8000"]
-volumes:
-  postgres-db-data:
+
+# volumes:
+#   postgres-db-data:

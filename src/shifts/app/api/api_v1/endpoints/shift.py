@@ -49,4 +49,5 @@ def delete_shift(*, shift_id: int, db: Session = Depends(deps.get_db)):
     Delete a shift
     """
     fetch_shift(shift_id=shift_id, db=db)
-    return crud.shift.remove(db=db, id=shift_id)
+    crud.shift.remove(db=db, id=shift_id)
+    return shift_id

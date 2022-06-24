@@ -138,18 +138,30 @@ FastAPI automatically generates the Open API documentation, which lists all the 
 
 
 
-## Unit tests
+## Unit test
 
 All unit test files are stored in the [`src/shifts/tests`](https://github.com/mikio-dev/shifts/blob/main/src/shifts/tests) directory. 
 
 To execute the unit tests, run the `pytest` command in the `src/shifts` directory using `poetry`:
 
 ```
-$ poetry run pytest
+$ poetry run pytest tests
 ```
 
-In addition, a Github action runs the `pytest` command every time code change is pushed to the Github repository.
+In addition, a Github action runs the `pytest tests` command every time code change is pushed to the Github repository.
 
+
+## Integration test
+
+All integration test files are stored in the [`src/shifts/integration`](https://github.com/mikio-dev/shifts/blob/main/src/shifts/integration) directory. 
+
+It uses the [pytest-docker-compose](https://github.com/pytest-docker-compose/pytest-docker-compose) pytest plugin to start the Docker images via docker-compose before each test module starts and shut down the Docker images after the test module finishes. As the PostgreSQL database is not persisted in a Docker volume, the integration tests can use the same test data in each module.
+
+To execute the unit tests, run the `pytest` command in the `src/shifts` directory using `poetry`:
+
+```
+$ poetry run pytest integration
+```
 
 
 ## Deployment

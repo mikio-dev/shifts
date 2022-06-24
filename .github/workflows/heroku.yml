@@ -26,7 +26,7 @@ jobs:
         working-directory: ./src/shifts
         run: |
           poetry install --no-root && \
-          poetry run pytest -v
+          poetry run pytest -v tests
 
   deploy:
     needs: test
