@@ -36,6 +36,10 @@ jobs:
         working-directory: ./src/shifts
         run: |
           poetry run pytest -v integration
+        env:
+          TEST_HOSTNAME: localhost
+          TEST_PORT: 8001
+          API_V1_STR: /api/v1
 
   deploy:
     needs: test
