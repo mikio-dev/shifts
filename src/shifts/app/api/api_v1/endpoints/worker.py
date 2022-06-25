@@ -51,7 +51,8 @@ def delete_worker(*, worker_id: int, db: Session = Depends(deps.get_db)):
     Delete a worker
     """
     fetch_worker(worker_id=worker_id, db=db)
-    return crud.worker.remove(db=db, id=worker_id)
+    crud.worker.remove(db=db, id=worker_id)
+    return worker_id
 
 
 @router.post(

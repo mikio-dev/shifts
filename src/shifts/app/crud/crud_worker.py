@@ -1,12 +1,11 @@
 from datetime import date
 
-from sqlalchemy.orm import Session
-
 from app.crud.base import CRUDBase
 from app.models.shift import Shift
 from app.models.worker import Worker
 from app.models.worker_shift import WorkerShift
 from app.schemas.worker import WorkerCreate
+from sqlalchemy.orm import Session
 
 
 class CRUDWorker(CRUDBase[Worker, WorkerCreate]):

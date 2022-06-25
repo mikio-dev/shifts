@@ -2,15 +2,14 @@ from typing import Generator
 from unittest.mock import MagicMock
 
 import pytest
-from fastapi.testclient import TestClient
-from sqlalchemy.exc import IntegrityError
-
 from app.api import deps
 from app.main import app
 from app.models.manager import Manager
 from app.models.shift import Shift
 from app.models.worker import Worker
 from app.models.worker_shift import WorkerShift
+from fastapi.testclient import TestClient
+from sqlalchemy.exc import IntegrityError
 
 
 async def mock_db_no_result():
@@ -61,6 +60,19 @@ async def mock_db_worker():
 
     mock.query().offset().limit().all.return_value = workers
     mock.query().filter().first.return_value = workers[0]
+
+    return mock
+
+
+async def mock_db_worker_to_delete():
+    """
+    Mock db session that simulates the following query results:
+    - The get() query return 1 worker record.
+    """
+    mock = MagicMock()
+    worker = Worker(id=1, username="Worker1")
+
+    mock.query().get.return_value = worker
 
     return mock
 
@@ -186,6 +198,18 @@ def worker_client() -> Generator:
     """
     with TestClient(app) as client:
         app.dependency_overrides[deps.get_db] = mock_db_worker
+        yield client
+        app.dependency_overrides = {}
+
+
+@pytest.fixture
+def worker_delete_client() -> Generator:
+    """
+    Test client fixture that replaces the dependent db session
+    with the `mock_db_worker` mock db session
+    """
+    with TestClient(app) as client:
+        app.dependency_overrides[deps.get_db] = mock_db_worker_to_delete
         yield client
         app.dependency_overrides = {}
 

@@ -34,3 +34,19 @@ def test_get_worker_shift_by_date_calls_methods(db, model):
     db.query().join().join.assert_called()
     db.query().join().join().filter.assert_called()
     db.query().join().join().filter().first.assert_called()
+
+
+def test_remove_calls_methods(db, model):
+    # Set up
+    worker_id = 1
+    _model = model()
+    crud = CRUDWorker(model=_model)
+
+    # Exercise
+    crud.remove(db, id=worker_id)
+
+    # Verify
+    db.query.assert_called_with(_model)
+    db.query(_model).get.assert_called_with(worker_id)
+    db.delete.assert_called()
+    db.commit.assert_called()

@@ -1,8 +1,7 @@
+from app.db.base_class import Base
 from sqlalchemy import DATE, Column, Integer
 from sqlalchemy.orm import relationship
 from sqlalchemy.schema import UniqueConstraint
-
-from app.db.base_class import Base
 
 
 class Shift(Base):

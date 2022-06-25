@@ -62,11 +62,11 @@ def test_create_worker_returns_400(worker_client):
     assert response.status_code == 400
 
 
-def test_delete_worker_returns_200(worker_client):
+def test_delete_worker_returns_200(worker_delete_client):
     # Set up
 
     # Exercise
-    response = worker_client.delete(f"{settings.API_V1_STR}/workers/1")
+    response = worker_delete_client.delete(f"{settings.API_V1_STR}/workers/1")
 
     # Verify
     # The fixture returns a result

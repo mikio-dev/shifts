@@ -1,10 +1,9 @@
 # pylint: disable=E1101
-from fastapi import APIRouter, Depends, HTTPException
-from sqlalchemy.orm import Session
-
 from app import crud
 from app.api import deps
 from app.schemas.manager import Manager, ManagerCreate
+from fastapi import APIRouter, Depends, HTTPException
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 
@@ -48,4 +47,5 @@ def delete_manager(*, manager_id: int, db: Session = Depends(deps.get_db)):
     Delete a manager
     """
     fetch_manager(manager_id=manager_id, db=db)
-    return crud.manager.remove(db=db, id=manager_id)
+    crud.manager.remove(db=db, id=manager_id)
+    return manager_id
