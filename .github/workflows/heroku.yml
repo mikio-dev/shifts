@@ -22,11 +22,20 @@ jobs:
           ln -s /opt/poetry/bin/poetry && \
           poetry config virtualenvs.create false
 
-      - name: Install dependencies and run tests
+      - name: Install dependencies
         working-directory: ./src/shifts
         run: |
-          poetry install --no-root && \
+          poetry install --no-root
+
+      - name: Run unit test
+        working-directory: ./src/shifts
+        run: |
           poetry run pytest -v tests
+
+      - name: Run integration test
+        working-directory: ./src/shifts
+        run: |
+          poetry run pytest -v integration
 
   deploy:
     needs: test
