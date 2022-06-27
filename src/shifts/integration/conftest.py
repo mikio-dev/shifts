@@ -13,7 +13,7 @@ pytest_plugins = ["docker_compose"]
 
 
 @pytest.fixture
-def client(module_scoped_container_getter):
+def client(function_scoped_container_getter):
 
     # Get the environment variables
     hostname = os.environ.get("TEST_HOSTNAME")

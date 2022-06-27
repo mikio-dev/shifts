@@ -78,3 +78,30 @@ def test_get_non_existent_worker_returns_404(client):
     print(res_json)
     assert res.status_code == 404
     assert res_json["detail"] == "Worker not found"
+
+
+def test_get_shifts_for_worker_returns_shifts(client):
+
+    # Expected output
+    # {[
+    #   {
+    #       "id": 1,
+    #       "shift_date": "2022-06-24"
+    #       "shift_slot": 1,
+    #   }
+    # ]}
+
+    # Set up
+    session, api_url = client
+    url = f"{api_url}/workers/1/shifts"
+
+    # Exercise
+    res = session.get(url=url)
+    res_json = res.json()
+
+    # Verify
+    res_json = res.json()
+    assert res.status_code == 200
+    assert res_json[0]["id"] == 1
+    assert res_json[0]["shift_date"] == date.today().strftime("%Y-%m-%d")
+    assert res_json[0]["shift_slot"] == 1

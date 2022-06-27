@@ -2,6 +2,7 @@
 from app import crud
 from app.api import deps
 from app.schemas.shift import Shift, ShiftCreate
+from app.schemas.user import User
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -31,10 +32,18 @@ def fetch_shift(*, shift_id: int, db: Session = Depends(deps.get_db)):
 
 
 @router.post("/", status_code=201, response_model=Shift)
-def create_shift(*, shift: ShiftCreate, db: Session = Depends(deps.get_db)):
+def create_shift(
+    *,
+    shift: ShiftCreate,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Create a new shift
     """
+    if current_user.type != "manager":
+        raise HTTPException(status_code=401, detail="Not authorized")
+
     db_shift = crud.shift.get_shift_by_date_slot(
         db, shift_date=shift.shift_date, shift_slot=shift.shift_slot
     )
@@ -44,10 +53,18 @@ def create_shift(*, shift: ShiftCreate, db: Session = Depends(deps.get_db)):
 
 
 @router.delete("/{shift_id}", status_code=200)
-def delete_shift(*, shift_id: int, db: Session = Depends(deps.get_db)):
+def delete_shift(
+    *,
+    shift_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Delete a shift
     """
+    if current_user.type != "manager":
+        raise HTTPException(status_code=401, detail="Not authorized")
+
     fetch_shift(shift_id=shift_id, db=db)
     crud.shift.remove(db=db, id=shift_id)
     return shift_id

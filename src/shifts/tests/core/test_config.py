@@ -18,3 +18,15 @@ def test_first_manager():
 
 def test_first_worker():
     assert settings.FIRST_WORKER == "Worker1"
+
+
+def test_default_access_token_expire_mninutes():
+    assert settings.ACCESS_TOKEN_EXPIRE_MINUTES == 60 * 24
+
+
+def test_default_algorithm():
+    assert settings.ALGORITHM == "HS256"
+
+
+def test_default_jwt_secret():
+    assert settings.JWT_SECRET == "TEST_JWT_SECRET"

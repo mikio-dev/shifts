@@ -18,5 +18,9 @@ class ManagerInDBBase(UserInDBBase):
         orm_mode = True
 
 
+class ManagerInDB(ManagerInDBBase):
+    hashed_password: str
+
+
 class Manager(ManagerInDBBase):
     pass
