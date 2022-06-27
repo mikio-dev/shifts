@@ -16,7 +16,7 @@ def test_delete_worker_deletes_worker(client):
 
     # Login
     res_login = session.post(
-        url=url_login, data={"username": "Worker1", "password": "password123"}
+        url=url_login, data={"username": "Manager1", "password": "password123"}
     )
     data = res_login.json()
     headers = {"Authorization": f"{data['token_type']} {data['access_token']}"}
@@ -29,7 +29,7 @@ def test_delete_worker_deletes_worker(client):
     assert res.text == "1"
 
 
-def test_delete_different_worker_returns_401(client):
+def test_delete_worker_by_worker_returns_401(client):
 
     # Expected output
     # {'detail': 'Not authorized'}
@@ -37,7 +37,7 @@ def test_delete_different_worker_returns_401(client):
     # Set up
     session, api_url = client
     url_login = f"{api_url}/auth/login"
-    url = f"{api_url}/workers/2"
+    url = f"{api_url}/workers/1"
 
     # Login
     res_login = session.post(

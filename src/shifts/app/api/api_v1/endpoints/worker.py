@@ -60,12 +60,12 @@ def delete_worker(
     *,
     worker_id: int,
     db: Session = Depends(deps.get_db),
-    current_worker: Worker = Depends(deps.get_current_user),
+    current_user: User = Depends(deps.get_current_user),
 ):
     """
     Delete a worker
     """
-    if worker_id != current_worker.id:
+    if current_user.type != "manager":
         raise HTTPException(status_code=401, detail="Not authorized")
 
     crud.worker.remove(db=db, id=worker_id)
