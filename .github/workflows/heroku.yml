@@ -30,7 +30,7 @@ jobs:
       - name: Run unit test
         working-directory: ./src/shifts
         run: |
-          poetry run pytest -v tests
+          poetry run pytest -v tests --cov=app --cov-report=xml --cov-report=html --cov-report=term --cov-report=annotate
 
       - name: Run integration test
         working-directory: ./src/shifts

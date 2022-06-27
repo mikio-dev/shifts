@@ -2,10 +2,9 @@
 import datetime
 import logging
 
-from sqlalchemy.orm import Session
-
 from app import crud, schemas
 from app.core.config import settings
+from sqlalchemy.orm import Session
 
 logger = logging.getLogger(__name__)
 
