@@ -49,6 +49,7 @@ class CRUDBase(Generic[ModelType, CreateSchemaType]):
 
         # Revert the override
         ENCODERS_BY_TYPE[date] = date.isoformat
+
         db_obj = self.model(**obj_in_data)
 
         db.add(db_obj)

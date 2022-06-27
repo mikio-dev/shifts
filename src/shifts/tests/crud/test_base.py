@@ -6,8 +6,8 @@ from app.crud.crud_shift import CRUDShift
 from app.crud.crud_worker import CRUDWorker
 
 
-@pytest.mark.parametrize("CLS", [CRUDBase, CRUDManager, CRUDShift, CRUDWorker])
 class TestCRUDBase:
+    @pytest.mark.parametrize("CLS", [CRUDBase, CRUDManager, CRUDShift, CRUDWorker])
     def test_init_sets_property(self, CLS, model):
         # Set up
         _model = model(1)
@@ -18,6 +18,7 @@ class TestCRUDBase:
         # Verify
         assert crud.model == _model
 
+    @pytest.mark.parametrize("CLS", [CRUDBase, CRUDManager, CRUDShift, CRUDWorker])
     def test_get_calls_methods(self, CLS, model, db):
         # Set up
         _id = 1
@@ -32,6 +33,7 @@ class TestCRUDBase:
         db.query().filter.assert_called_with(_model.id == _id)
         db.query().filter().first.assert_called()
 
+    @pytest.mark.parametrize("CLS", [CRUDBase, CRUDManager, CRUDShift, CRUDWorker])
     def test_get_multi_calls_methods(self, CLS, model, db):
         # Set up
         skip = 1
@@ -48,6 +50,7 @@ class TestCRUDBase:
         db.query().offset(skip).limit.assert_called_with(limit)
         db.query().offset(skip).limit(limit).all.assert_called()
 
+    @pytest.mark.parametrize("CLS", [CRUDBase, CRUDShift])
     def test_create_calls_methods(self, CLS, model, db):
         # Set up
         obj_in = {"key": "value"}
@@ -63,6 +66,7 @@ class TestCRUDBase:
         db.commit.assert_called()
         db.refresh.assert_called()
 
+    @pytest.mark.parametrize("CLS", [CRUDBase, CRUDManager, CRUDShift, CRUDWorker])
     def test_remove_calls_methods(self, CLS, model, db):
         # Set up
         _id = 1

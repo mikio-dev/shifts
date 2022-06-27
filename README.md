@@ -31,7 +31,9 @@ The requirements for the application are as follows.
 
 In addition, the following assumptions have been made:
 
-- Manager can create Shifts.
+- Only Manager can create and delete Shifts.
+- Only Manager can create and delete Workers.
+- Only Manager can create and delete Managers.
 - Workers can choose Shifts.
 - Workers can cancel their Shifts.
 
@@ -40,7 +42,6 @@ In addition, the following assumptions have been made:
 
 The following functionality is out of scope in the current version.
 
-- User authentication (signup, login) and authorisation 
 - Front-end application
 
 

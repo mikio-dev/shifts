@@ -1,5 +1,7 @@
 from app import crud
 from app.api import deps
+from app.schemas.shift import Shift
+from app.schemas.user import User
 from app.schemas.worker import Worker, WorkerCreate
 from app.schemas.worker_shift import WorkerShift
 from fastapi import APIRouter, Depends, HTTPException
@@ -35,10 +37,18 @@ def fetch_worker(*, worker_id: int, db: Session = Depends(deps.get_db)):
 
 
 @router.post("/", status_code=201, response_model=Worker)
-def create_worker(*, worker: WorkerCreate, db: Session = Depends(deps.get_db)):
+def create_worker(
+    *,
+    worker: WorkerCreate,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Create a new worker
     """
+    if current_user.type != "manager":
+        raise HTTPException(status_code=401, detail="Not authorized")
+
     db_worker = crud.worker.get_worker_by_username(db, username=worker.username)
     if db_worker:
         raise HTTPException(status_code=400, detail="Username already registered")
@@ -46,13 +56,32 @@ def create_worker(*, worker: WorkerCreate, db: Session = Depends(deps.get_db)):
 
 
 @router.delete("/{worker_id}", status_code=200)
-def delete_worker(*, worker_id: int, db: Session = Depends(deps.get_db)):
+def delete_worker(
+    *,
+    worker_id: int,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Delete a worker
     """
-    fetch_worker(worker_id=worker_id, db=db)
+    if current_user.type != "manager":
+        raise HTTPException(status_code=401, detail="Not authorized")
+
     crud.worker.remove(db=db, id=worker_id)
     return worker_id
+
+
+@router.get("/{worker_id}/shifts/", status_code=200, response_model=list[Shift])
+def get_my_shifts(
+    *,
+    worker_id: int,
+    db: Session = Depends(deps.get_db),
+):
+    """
+    Fetch all shifts for the specified worker
+    """
+    return crud.worker.get_shifts_by_worker(db, worker_id)
 
 
 @router.post(
@@ -61,11 +90,17 @@ def delete_worker(*, worker_id: int, db: Session = Depends(deps.get_db)):
     response_model=WorkerShift,
 )
 def add_shift_to_worker(
-    worker_id: int, shift_id: int, db: Session = Depends(deps.get_db)
+    worker_id: int,
+    shift_id: int,
+    db: Session = Depends(deps.get_db),
+    current_worker: Worker = Depends(deps.get_current_user),
 ):
     """
     Add shift to worker
     """
+    if worker_id != current_worker.id:
+        raise HTTPException(status_code=401, detail="Not authorized")
+
     fetch_worker(worker_id=worker_id, db=db)
     db_shift = fetch_shift(shift_id=shift_id, db=db)
     db_worker_shift = crud.worker.get_worker_shift_by_date(
@@ -104,11 +139,17 @@ def add_shift_to_worker(
     response_model=WorkerShift,
 )
 def delete_shift_from_worker(
-    worker_id: int, shift_id: int, db: Session = Depends(deps.get_db)
+    worker_id: int,
+    shift_id: int,
+    db: Session = Depends(deps.get_db),
+    current_worker: Worker = Depends(deps.get_current_user),
 ):
     """
-    Add shift to worker
+    Delete shift from worker
     """
+    if worker_id != current_worker.id:
+        raise HTTPException(status_code=401, detail="Not authorized")
+
     fetch_worker(worker_id=worker_id, db=db)
     fetch_shift(shift_id=shift_id, db=db)
     db_worker_shift = crud.worker_shift.get_worker_shift_by_id(

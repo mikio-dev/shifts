@@ -2,6 +2,7 @@
 from app import crud
 from app.api import deps
 from app.schemas.manager import Manager, ManagerCreate
+from app.schemas.user import User
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -31,10 +32,18 @@ def fetch_manager(*, manager_id: int, db: Session = Depends(deps.get_db)):
 
 
 @router.post("/", status_code=201, response_model=Manager)
-def create_manager(*, manager: ManagerCreate, db: Session = Depends(deps.get_db)):
+def create_manager(
+    *,
+    manager: ManagerCreate,
+    db: Session = Depends(deps.get_db),
+    current_user: User = Depends(deps.get_current_user),
+):
     """
     Create a new manager
     """
+    if current_user.type != "manager":
+        raise HTTPException(status_code=401, detail="Not authorized")
+
     db_manager = crud.manager.get_manager_by_username(db, username=manager.username)
     if db_manager:
         raise HTTPException(status_code=400, detail="Username already registered")
@@ -42,10 +51,18 @@ def create_manager(*, manager: ManagerCreate, db: Session = Depends(deps.get_db)
 
 
 @router.delete("/{manager_id}", status_code=200)
-def delete_manager(*, manager_id: int, db: Session = Depends(deps.get_db)):
+def delete_manager(
+    *,
+    manager_id: int,
+    db: Session = Depends(deps.get_db),
+    current_manager: Manager = Depends(deps.get_current_user),
+):
     """
     Delete a manager
     """
+    if manager_id != current_manager.id:
+        raise HTTPException(status_code=401, detail="Not authorized")
+
     fetch_manager(manager_id=manager_id, db=db)
     crud.manager.remove(db=db, id=manager_id)
     return manager_id

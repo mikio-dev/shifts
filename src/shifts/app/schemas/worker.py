@@ -21,5 +21,9 @@ class WorkerInDBBase(UserInDBBase):
         orm_mode = True
 
 
+class WorkerInDB(WorkerInDBBase):
+    hashed_password: str
+
+
 class Worker(WorkerInDBBase):
     pass

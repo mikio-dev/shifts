@@ -1,5 +1,6 @@
 from datetime import date
 
+from app.core.security import get_password_hash
 from app.crud.base import CRUDBase
 from app.models.shift import Shift
 from app.models.worker import Worker
@@ -31,6 +32,30 @@ class CRUDWorker(CRUDBase[Worker, WorkerCreate]):
             .filter(Worker.id == worker_id, Shift.shift_date == shift_date)
             .first()
         )
+
+    def get_shifts_by_worker(self, db: Session, worker_id: int):
+        """
+        Join worker, shift and worker_shift, select the records by worker_id,
+        and returns all Shift records
+        """
+        return (
+            db.query(Shift)
+            .join(WorkerShift, WorkerShift.shift_id == Shift.id)
+            .join(Worker, Worker.id == WorkerShift.worker_id)
+            .filter(Worker.id == worker_id)
+            .all()
+        )
+
+    def create(self, db: Session, *, obj_in: WorkerCreate):
+        create_data = obj_in.dict()
+        create_data.pop("password")
+        db_obj = self.model(**create_data)
+        db_obj.hashed_password = get_password_hash(obj_in.password)
+        db.add(db_obj)
+        db.commit()
+        db.refresh(db_obj)
+
+        return db_obj
 
 
 worker = CRUDWorker(Worker)
